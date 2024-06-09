@@ -24,12 +24,14 @@ async function postData(data: UserRegisterDetails, authToken: string) {
 }
 
 export function useUserRegisterMutate() {
-  const storeToken = localStorage.getItem("storeToken");
   const setToken = tokenStore((state) => state.setToken);
   const authToken = tokenStore((state) => state.token);
 
-  if (storeToken) {
-    setToken(storeToken);
+  if (typeof window !== "undefined") {
+    const storeToken = localStorage.getItem("storeToken");
+    if (storeToken) {
+      setToken(storeToken);
+    }
   }
 
   const mutate = useMutation({

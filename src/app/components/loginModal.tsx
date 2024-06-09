@@ -36,10 +36,10 @@ export default function LoginDialog() {
       if (typeof window !== "undefined") {
         localStorage.setItem("storeToken", data);
         localStorage.setItem("storeEmail", userAuthenticateDetails!.email);
-        setEmail(userAuthenticateDetails!.email);
-        setToken(data);
-        setOpen(false);
       }
+      setEmail(userAuthenticateDetails!.email);
+      setToken(data);
+      setOpen(false);
     }
   }, [isSuccess]);
 
@@ -61,7 +61,7 @@ export default function LoginDialog() {
             <span>Email</span>
             <input
               type="text"
-              className="flex ml-4 text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
+              className="flex text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
               placeholder="email"
               onChange={(value) =>
                 handleSetLoginAuthenticateDetails(value, "email")
@@ -72,7 +72,7 @@ export default function LoginDialog() {
             <span>Senha</span>
             <input
               type="text"
-              className="flex ml-4 text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
+              className="flex text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
               placeholder="senha"
               onChange={(value) =>
                 handleSetLoginAuthenticateDetails(value, "password")

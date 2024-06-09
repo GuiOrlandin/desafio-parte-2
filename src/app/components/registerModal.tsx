@@ -8,6 +8,7 @@ import {
 } from "@/hooks/userRegisterHook";
 import { emailStore } from "@/store/emailStore";
 import { tokenStore } from "@/store/tokenStore";
+import { errorStore } from "@/store/errorStore";
 
 export default function RegisterDialog() {
   const [userRegisterDetails, setUserRegisterDetails] =
@@ -16,10 +17,13 @@ export default function RegisterDialog() {
     mutate: authenticatateUserMutate,
     data: access_token,
     isSuccess,
+    status,
   } = useAuthenticateMutate();
-  const { mutate, isSuccess: userRegistered, data } = useUserRegisterMutate();
+  const { mutate, isSuccess: userRegistered } = useUserRegisterMutate();
   const setEmail = emailStore((state) => state.setEmail);
   const setToken = tokenStore((state) => state.setToken);
+  const setError = errorStore((state) => state.setError);
+  const error = errorStore((state) => state.error);
   const [open, setOpen] = useState(false);
 
   function handleSetRegisterDetails(
@@ -44,6 +48,9 @@ export default function RegisterDialog() {
         password: userRegisterDetails!.password,
       });
     }
+  }, [userRegistered]);
+
+  useEffect(() => {
     if (isSuccess) {
       if (typeof window !== "undefined") {
         localStorage.setItem("storeToken", access_token);
@@ -52,8 +59,10 @@ export default function RegisterDialog() {
         setToken(access_token);
         setOpen(false);
       }
+    } else if (status === "error") {
+      setError("Acesso não autorizado!");
     }
-  }, [isSuccess]);
+  }, [isSuccess, status]);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -68,12 +77,12 @@ export default function RegisterDialog() {
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA6 data-[state=`${open}`]:animate-overlayShow fixed inset-0" />
         <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] h-[350px] w-[190vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
-          <Dialog.Title>Login</Dialog.Title>
+          <Dialog.Title>Registrar</Dialog.Title>
           <div className="flex flex-col mt-5">
             <span>Email</span>
             <input
               type="text"
-              className="flex ml-4 text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
+              className="flex text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
               placeholder="email"
               onChange={(value) => handleSetRegisterDetails(value, "email")}
             />
@@ -82,7 +91,7 @@ export default function RegisterDialog() {
             <span>Senha</span>
             <input
               type="text"
-              className="flex ml-4 text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
+              className="flex text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
               placeholder="senha"
               onChange={(value) => handleSetRegisterDetails(value, "password")}
             />
