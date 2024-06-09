@@ -7,13 +7,22 @@ import {
 } from "@/hooks/userAuthenticateHook";
 import { emailStore } from "@/store/emailStore";
 import { tokenStore } from "@/store/tokenStore";
+import { errorStore } from "@/store/errorStore";
 
 export default function LoginDialog() {
   const [userAuthenticateDetails, setUserAuthenticateDetails] =
     useState<UserAuthenticationDetails>();
-  const { mutate, isSuccess, data } = useAuthenticateMutate();
+  const {
+    mutate,
+    isSuccess,
+    data,
+    error: loginError,
+  } = useAuthenticateMutate();
   const setEmail = emailStore((state) => state.setEmail);
   const setToken = tokenStore((state) => state.setToken);
+  const setError = errorStore((state) => state.setError);
+  const error = errorStore((state) => state.error);
+
   const [open, setOpen] = useState(false);
 
   function handleSetLoginAuthenticateDetails(
@@ -41,7 +50,10 @@ export default function LoginDialog() {
       setToken(data);
       setOpen(false);
     }
-  }, [isSuccess]);
+    if (loginError) {
+      setError("Email ou senha incorretos!");
+    }
+  }, [isSuccess, loginError]);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
@@ -79,9 +91,10 @@ export default function LoginDialog() {
               }
             />
           </div>
+          <div className="text-red-600 mt-1">{error}</div>
 
           <button
-            className="flex items-center mt-12 ml-80 px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+            className="flex items-center mt-6 ml-80 px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
             onClick={() => handleLogin(userAuthenticateDetails!)}
           >
             Entrar

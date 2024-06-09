@@ -19,7 +19,7 @@ export default function RegisterDialog() {
     isSuccess,
     status,
   } = useAuthenticateMutate();
-  const { mutate, isSuccess: userRegistered } = useUserRegisterMutate();
+  const { mutate, isSuccess: userRegistered, data } = useUserRegisterMutate();
   const setEmail = emailStore((state) => state.setEmail);
   const setToken = tokenStore((state) => state.setToken);
   const setError = errorStore((state) => state.setError);
@@ -42,13 +42,15 @@ export default function RegisterDialog() {
   }
 
   useEffect(() => {
-    if (userRegistered) {
+    if (data === undefined) {
+      return setError("Email ja em uso!");
+    } else {
       authenticatateUserMutate({
         email: userRegisterDetails!.email,
         password: userRegisterDetails!.password,
       });
     }
-  }, [userRegistered]);
+  }, [userRegistered, data]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -57,8 +59,9 @@ export default function RegisterDialog() {
         localStorage.setItem("storeEmail", userRegisterDetails!.email);
         setEmail(userRegisterDetails!.email);
         setToken(access_token);
-        setOpen(false);
+        setError("");
       }
+      setOpen(false);
     } else if (status === "error") {
       setError("Acesso não autorizado!");
     }
@@ -96,9 +99,10 @@ export default function RegisterDialog() {
               onChange={(value) => handleSetRegisterDetails(value, "password")}
             />
           </div>
+          <div className="text-red-600 mt-1">{error}</div>
           <div className="justify-end ml-72">
             <button
-              className="flex items-center mt-12  px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+              className="flex items-center mt-6  px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
               onClick={() => handleRegister(userRegisterDetails!)}
             >
               Cadastrar

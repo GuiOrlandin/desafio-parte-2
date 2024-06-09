@@ -15,8 +15,12 @@ async function postData(data: UserRegisterDetails, authToken: string) {
           Authorization: `Bearer ${authToken}`,
         },
       };
-      await axios.post("http://localhost:3333/users", data, config);
-      console.log("User created!");
+      const response = await axios.post(
+        "http://localhost:3333/users",
+        data,
+        config
+      );
+      return response;
     }
   } catch (error) {
     console.error("Error:", error);

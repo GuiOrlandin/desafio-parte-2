@@ -7,8 +7,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  console.log(product);
-
   return (
     <div className="w-[306px] h-[250px] bg-[#F5F5F5] rounded-[20px] flex items-center pt-8 flex-col">
       {product ? (
