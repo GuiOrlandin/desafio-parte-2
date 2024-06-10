@@ -4,6 +4,7 @@ import { ProductResponse } from "../page";
 
 import { CiEdit } from "react-icons/ci";
 import DeleteProductModal from "./deleteProductModal";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: ProductResponse;
@@ -11,13 +12,23 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, userId }: ProductCardProps) {
+  const router = useRouter();
+
+  function handleEditClick() {
+    router.push(`/itemUpdate/${product._id}`);
+    console.log(product._id);
+  }
+
   return (
     <div className="w-[306px] p-6 bg-[#F5F5F5] rounded-[20px] flex items-center pt-3 flex-col">
       {product ? (
         <>
           {userId === product.user && (
             <div className="flex gap-[12rem] pb-5">
-              <button className="flex items-center  px-3 py-2 bg-[#160548] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 hover:bg-[#5e5185]">
+              <button
+                onClick={() => handleEditClick()}
+                className="flex items-center  px-3 py-2 bg-[#160548] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 hover:bg-[#5e5185]"
+              >
                 <CiEdit size={20} />
               </button>
               <div className="flex-grow">

@@ -72,7 +72,10 @@ export default function DeleteProductModal({
             >
               Sim
             </button>
-            <button className="flex items-center  px-3 py-2 bg-[#160548] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 hover:bg-[#5e5185]">
+            <button
+              onClick={() => setOpen(false)}
+              className="flex items-center  px-3 py-2 bg-[#160548] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 hover:bg-[#5e5185]"
+            >
               Não
             </button>
           </div>

@@ -2,7 +2,8 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { tokenStore } from "../store/tokenStore";
 
-export interface ProductRegisterDetails {
+export interface ProductUpdateDetails {
+  _id: string;
   description: string;
   name: string;
   category: string;
@@ -10,7 +11,7 @@ export interface ProductRegisterDetails {
   stock: number;
 }
 
-async function postData(data: ProductRegisterDetails, authToken: string) {
+async function postData(data: ProductUpdateDetails, authToken: string) {
   try {
     if (authToken) {
       const config = {
@@ -18,8 +19,8 @@ async function postData(data: ProductRegisterDetails, authToken: string) {
           Authorization: `Bearer ${authToken}`,
         },
       };
-      const response = await axios.post(
-        "http://localhost:3333/products",
+      const response = await axios.put(
+        `http://localhost:3333/products/${data._id}`,
         data,
         config
       );
@@ -30,7 +31,7 @@ async function postData(data: ProductRegisterDetails, authToken: string) {
   }
 }
 
-export function useProductRegisterMutate() {
+export function useUpdateProductMutate() {
   const setToken = tokenStore((state) => state.setToken);
   const authToken = tokenStore((state) => state.token);
 
@@ -42,7 +43,7 @@ export function useProductRegisterMutate() {
   }
 
   const mutate = useMutation({
-    mutationFn: (data: ProductRegisterDetails) => postData(data, authToken),
+    mutationFn: (data: ProductUpdateDetails) => postData(data, authToken),
   });
   return mutate;
 }

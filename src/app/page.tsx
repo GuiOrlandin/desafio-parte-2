@@ -43,6 +43,7 @@ export default function Home() {
         .then((response) => response.data);
     },
   });
+
   const { data, refetch } = useQuery<User>({
     queryKey: ["user-info"],
 
