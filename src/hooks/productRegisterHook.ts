@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { tokenStore } from "../store/tokenStore";
+import { queryClient } from "@/lib/react-query";
 
 export interface ProductRegisterDetails {
   description: string;
@@ -23,7 +24,7 @@ async function postData(data: ProductRegisterDetails, authToken: string) {
         data,
         config
       );
-      return response;
+      return response.data;
     }
   } catch (error) {
     console.error("Error:", error);
@@ -43,6 +44,13 @@ export function useProductRegisterMutate() {
 
   const mutate = useMutation({
     mutationFn: (data: ProductRegisterDetails) => postData(data, authToken),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["products-info"],
+        exact: true,
+        refetchType: "active",
+      });
+    },
   });
   return mutate;
 }

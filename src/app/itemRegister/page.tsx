@@ -8,13 +8,20 @@ import {
 } from "@/hooks/productRegisterHook";
 import { useRouter } from "next/navigation";
 import TopBar from "../components/topBar";
+import { productStore } from "@/store/allProductsStore";
 
 export default function ItemRegister() {
   const router = useRouter();
 
-  const [productDetails, SetProductDetails] =
-    useState<ProductRegisterDetails>();
-  const { mutate, isSuccess } = useProductRegisterMutate();
+  const [productDetails, SetProductDetails] = useState<ProductRegisterDetails>({
+    category: "",
+    description: "",
+    name: "",
+    price: 0,
+    stock: 0,
+  });
+  const { mutate, isSuccess, data } = useProductRegisterMutate();
+  const addProduct = productStore((state) => state.addProduct);
 
   function handleSetProductDetails(
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -33,6 +40,7 @@ export default function ItemRegister() {
 
   useEffect(() => {
     if (isSuccess) {
+      addProduct(data);
       router.push("/");
     }
   }, [isSuccess]);

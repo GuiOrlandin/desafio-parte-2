@@ -11,8 +11,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, userId }: ProductCardProps) {
-  console.log(userId);
-
   return (
     <div className="w-[306px] p-6 bg-[#F5F5F5] rounded-[20px] flex items-center pt-3 flex-col">
       {product ? (

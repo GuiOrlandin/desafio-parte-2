@@ -8,6 +8,7 @@ import { ProductResponse } from "../page";
 import { useQuery } from "@tanstack/react-query";
 import { tokenStore } from "@/store/tokenStore";
 import axios from "axios";
+import { productStore } from "@/store/allProductsStore";
 
 interface DeleteProductModalProps {
   product: ProductResponse;
@@ -17,10 +18,11 @@ export default function DeleteProductModal({
   product,
 }: DeleteProductModalProps) {
   const [open, setOpen] = useState(false);
-  const setToken = tokenStore((state) => state.setToken);
   const token = tokenStore((state) => state.token);
+  const [productId, setProductId] = useState("");
+  const removeProduct = productStore((state) => state.removeProduct);
 
-  const { isSuccess, refetch } = useQuery({
+  const { isSuccess, refetch, status, data } = useQuery({
     queryKey: ["delete-Product"],
     enabled: false,
 
@@ -37,12 +39,17 @@ export default function DeleteProductModal({
   });
 
   function handleDeleteProduct() {
+    setProductId(product._id);
     refetch();
   }
 
   useEffect(() => {
-    setOpen(false);
-  }, [isSuccess]);
+    if (status === "success" && productId) {
+      removeProduct(productId);
+      setOpen(false);
+      setProductId("");
+    }
+  }, [status, productId]);
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
