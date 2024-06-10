@@ -6,6 +6,9 @@ import { tokenStore } from "@/store/tokenStore";
 
 import LoginDialog from "./loginModal";
 import RegisterDialog from "./registerModal";
+import LogoutModal from "./logoutModal";
+import { userStore } from "@/store/userStore";
+import { errorStore } from "@/store/errorStore";
 
 interface TopBarProps {
   page: string;
@@ -20,6 +23,8 @@ export default function TopBar({ page }: TopBarProps) {
   const setToken = tokenStore((state) => state.setToken);
   const removeToken = tokenStore((state) => state.removeToken);
   const token = tokenStore((state) => state.token);
+  const removeUser = userStore((state) => state.removeUser);
+  const removeError = errorStore((state) => state.removeError);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -30,8 +35,10 @@ export default function TopBar({ page }: TopBarProps) {
         setEmail(storageEmail);
         setToken(storageToken);
         setUserAuthenticated(true);
+        removeError();
       } else if (email && token) {
         setUserAuthenticated(true);
+        removeError();
       }
 
       if (!email && !token && !storageToken && !storageEmail) {
@@ -46,6 +53,8 @@ export default function TopBar({ page }: TopBarProps) {
     localStorage.removeItem("storeEmail");
     removeToken();
     removeEmail();
+    removeUser();
+    window.location.reload();
   }
 
   function handleRedirect(page: string) {
@@ -64,12 +73,11 @@ export default function TopBar({ page }: TopBarProps) {
               >
                 Listar Item
               </button>
-              <button
-                onClick={() => handleLogout()}
-                className="flex px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
-              >
-                Sair
-              </button>
+              <LogoutModal
+                title="Sair da conta"
+                content="Você deseja sair da sua conta?"
+                functionAction={handleLogout}
+              />
             </>
           ) : (
             <>
@@ -89,12 +97,11 @@ export default function TopBar({ page }: TopBarProps) {
             Home
           </button>
           <div className="flex-grow"></div>
-          <button
-            onClick={() => handleLogout()}
-            className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
-          >
-            Sair
-          </button>
+          <LogoutModal
+            title="Sair da conta"
+            content="Você deseja sair da sua conta?"
+            functionAction={handleLogout}
+          />
         </div>
       )}
     </div>

@@ -1,10 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { MdClose } from "react-icons/md";
-import { ProductResponse } from "../page";
 
 interface CloseDialogProps {
   functionAction: () => void;
@@ -12,7 +10,7 @@ interface CloseDialogProps {
   content: string;
 }
 
-export default function CloseDialog({
+export default function LogoutModal({
   functionAction,
   content,
   title,
@@ -27,8 +25,8 @@ export default function CloseDialog({
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
-        <button className="flex items-center  px-3 py-2 bg-[#160548] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 hover:bg-[#5e5185]">
-          <MdClose size={20} />
+        <button className="flex px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700">
+          Sair
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>

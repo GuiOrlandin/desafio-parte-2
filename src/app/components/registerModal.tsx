@@ -19,9 +19,14 @@ export default function RegisterDialog() {
     isSuccess,
     status,
   } = useAuthenticateMutate();
-  const { mutate, isSuccess: userRegistered, data } = useUserRegisterMutate();
+  const {
+    mutate,
+    isSuccess: userRegistered,
+    status: registerStatus,
+  } = useUserRegisterMutate();
   const setEmail = emailStore((state) => state.setEmail);
   const setToken = tokenStore((state) => state.setToken);
+  const removeError = errorStore((state) => state.removeError);
   const setError = errorStore((state) => state.setError);
   const error = errorStore((state) => state.error);
   const [open, setOpen] = useState(false);
@@ -42,15 +47,19 @@ export default function RegisterDialog() {
   }
 
   useEffect(() => {
-    if (data === undefined) {
-      return setError("Email ja em uso!");
-    } else {
+    if (userRegistered) {
       authenticatateUserMutate({
         email: userRegisterDetails!.email,
         password: userRegisterDetails!.password,
       });
+      removeError();
     }
-  }, [userRegistered, data]);
+
+    if (registerStatus === "error") {
+      console.log("test");
+      setError("Email ja em uso!");
+    }
+  }, [userRegistered, registerStatus]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -63,7 +72,7 @@ export default function RegisterDialog() {
       }
       setOpen(false);
     } else if (status === "error") {
-      setError("Acesso não autorizado!");
+      setError("Email ja em uso!");
     }
   }, [isSuccess, status]);
 
