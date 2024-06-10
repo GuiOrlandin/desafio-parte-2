@@ -54,7 +54,6 @@ export default function LoginDialog() {
       setError("Email ou senha incorretos!");
     }
   }, [isSuccess, loginError]);
-
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
