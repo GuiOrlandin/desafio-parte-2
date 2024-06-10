@@ -23,15 +23,19 @@ export default function TopBar({ page }: TopBarProps) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem("storeToken");
-      const storedEmail = localStorage.getItem("storeEmail");
+      const storageToken = localStorage.getItem("storeToken");
+      const storageEmail = localStorage.getItem("storeEmail");
 
-      if (storedToken && storedEmail) {
-        setEmail(storedEmail);
-        setToken(storedToken);
+      if (storageToken && storageEmail) {
+        setEmail(storageEmail);
+        setToken(storageToken);
         setUserAuthenticated(true);
       } else if (email && token) {
         setUserAuthenticated(true);
+      }
+
+      if (!email && !token && !storageToken && !storageEmail) {
+        router.push("/");
       }
     }
   }, [email, token]);
@@ -50,25 +54,47 @@ export default function TopBar({ page }: TopBarProps) {
 
   return (
     <div>
-      {page === "home" && userAuthenticated ? (
+      {page === "home" ? (
         <div className="flex gap-2 justify-end p-5">
+          {userAuthenticated ? (
+            <>
+              <button
+                onClick={() => handleRedirect("itemRegister")}
+                className="flex px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+              >
+                Listar Item
+              </button>
+              <button
+                onClick={() => handleLogout()}
+                className="flex px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+              >
+                Sair
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="flex gap-2 justify-end">
+                <LoginDialog />
+                <RegisterDialog />
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="flex gap-1 p-5">
           <button
-            onClick={() => handleRedirect("itemRegister")}
-            className="flex px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+            onClick={() => handleRedirect("/")}
+            className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
           >
-            Listar Item
+            Home
           </button>
+          <div className="flex-grow"></div>
           <button
             onClick={() => handleLogout()}
-            className="flex px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+            className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
           >
             Sair
           </button>
-        </div>
-      ) : (
-        <div className="flex gap-2 justify-end p-5">
-          <LoginDialog />
-          <RegisterDialog />
         </div>
       )}
     </div>

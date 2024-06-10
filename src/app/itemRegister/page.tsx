@@ -7,6 +7,7 @@ import {
   useProductRegisterMutate,
 } from "@/hooks/productRegisterHook";
 import { useRouter } from "next/navigation";
+import TopBar from "../components/topBar";
 
 export default function ItemRegister() {
   const router = useRouter();
@@ -37,7 +38,11 @@ export default function ItemRegister() {
   }, [isSuccess]);
 
   return (
-    <div className="bg-[#160548] h-screen flex justify-center items-center">
+    <div className="bg-[#160548] h-screen flex flex-col justify-center items-center">
+      <div className="fixed top-0 right-0">
+        <TopBar page="itemRegister" />
+      </div>
+
       <div className="bg-[#F5F5F5] w-[350px] h-auto p-4 rounded-md flex flex-col justify-around space-y-4">
         <div className="flex flex-col">
           <span>Nome</span>

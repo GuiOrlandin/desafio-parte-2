@@ -16,7 +16,7 @@ export interface ProductResponse {
 }
 
 export default function Home() {
-  const { data: products, refetch } = useQuery<ProductResponse[]>({
+  const { data: products } = useQuery<ProductResponse[]>({
     queryKey: ["products-info"],
     queryFn: async () => {
       return axios
