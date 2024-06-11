@@ -75,9 +75,6 @@ export default function ItemUpdate({ params }: { params: { id: string } }) {
     }
   }, [productUpdated, productData]);
 
-  console.log(detailsForProductToUpdate);
-  console.log(productData);
-
   return (
     <div className="bg-[#160548] h-screen flex flex-col justify-center items-center">
       {isLoading ? (

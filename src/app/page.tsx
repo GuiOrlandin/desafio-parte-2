@@ -10,7 +10,6 @@ import { tokenStore } from "@/store/tokenStore";
 import { emailStore } from "@/store/emailStore";
 import { User, userStore } from "@/store/userStore";
 import { productStore } from "@/store/allProductsStore";
-import { Spinner } from "@radix-ui/themes";
 
 export interface ProductResponse {
   _id: string;
@@ -48,6 +47,7 @@ export default function Home() {
 
   const { data, refetch } = useQuery<User>({
     queryKey: ["user-info"],
+    enabled: false,
 
     queryFn: async () => {
       const config = {

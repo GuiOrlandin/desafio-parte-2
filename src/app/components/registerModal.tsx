@@ -9,6 +9,7 @@ import {
 import { emailStore } from "@/store/emailStore";
 import { tokenStore } from "@/store/tokenStore";
 import { errorStore } from "@/store/errorStore";
+import PasswordInput from "./passwordInput";
 
 export default function RegisterDialog() {
   const [userRegisterDetails, setUserRegisterDetails] =
@@ -23,6 +24,7 @@ export default function RegisterDialog() {
     mutate,
     isSuccess: userRegistered,
     status: registerStatus,
+    data,
   } = useUserRegisterMutate();
   const setEmail = emailStore((state) => state.setEmail);
   const setToken = tokenStore((state) => state.setToken);
@@ -47,18 +49,18 @@ export default function RegisterDialog() {
   }
 
   useEffect(() => {
-    if (userRegistered) {
+    if (userRegistered && data === undefined) {
+      return setError("Email ja em uso!");
+    }
+
+    if (userRegistered && data !== undefined) {
       authenticatateUserMutate({
         email: userRegisterDetails!.email,
         password: userRegisterDetails!.password,
       });
       removeError();
     }
-
-    if (registerStatus === "error") {
-      setError("Email ja em uso!");
-    }
-  }, [userRegistered, registerStatus]);
+  }, [userRegistered, data]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -86,40 +88,31 @@ export default function RegisterDialog() {
         </button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="bg-blackA6 data-[state=`${open}`]:animate-overlayShow fixed inset-0" />
-        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] h-[350px] w-[190vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
+        <Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
+        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] h-auto w-full max-w-[350px] md:max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none">
           <Dialog.Title>Registrar</Dialog.Title>
           <div className="flex flex-col mt-5">
             <span>Email</span>
             <input
               type="text"
-              className="flex text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
+              className="text-lg w-full h-12 cursor-pointer border border-[#160548] mt-2 p-2 rounded-md"
               placeholder="email"
               onChange={(value) => handleSetRegisterDetails(value, "email")}
             />
           </div>
-          <div className="flex flex-col mt-5">
-            <span>Senha</span>
-            <input
-              type="text"
-              className="flex text-lg w-30  h-16px cursor-pointer border border-[#160548]  mt-2 ml-0.5 p-2 rounded-md"
-              placeholder="senha"
-              onChange={(value) => handleSetRegisterDetails(value, "password")}
-            />
-          </div>
+          <PasswordInput setValuesFunction={handleSetRegisterDetails} />
           <div className="text-red-600 mt-1">{error}</div>
-          <div className="justify-end ml-72">
+          <div className="flex justify-end">
             <button
-              className="flex items-center mt-6  px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
+              className="flex items-center mt-6 px-4 py-2 bg-red-600 text-white font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50 hover:bg-red-700"
               onClick={() => handleRegister(userRegisterDetails!)}
             >
               Cadastrar
             </button>
           </div>
-
           <Dialog.Close asChild>
             <button
-              className="text-violet11 pt-[25px] hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none pb-5"
+              className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-2 right-2 inline-flex h-6 w-6 items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
               aria-label="Close"
             >
               <Cross2Icon />
