@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+ </div>
 
-## Getting Started
+## 📃 About
 
-First, run the development server:
+Desafio parte 2, é a segunda parte do desafio para a vaga fullstack web, foi desenvolvido a parte front-end com Next.js com a paginação de de listagem, adição e edição de produtos figma. Em que o usuário só pode criar/editar/
+deletar uma postagem se estiver logado e por ultimo só podera deletar se a postagem foi criada pelo mesmo.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🛠 Build with
+
+- [HTML]()
+- [CSS]()
+- [TypeScript]()
+- [Next]()
+- [React Query]()
+- [Radix]()
+
+## 🎞 Demo
+
+Tela principal sem nenhum produto listado.
+<img src="src/assets/telaprincipal.png">
+Processo de cadastro do usuário.
+<img src="src/assets/cadastrando.png">
+Processo de criar um produto.
+<img src="src/assets/criandoumproduto.png">
+Página principal com todos os produtos criados sendo exibidos
+<img src="src/assets/listandoosprodutos.png">
+Modal que é aberto quando solicita-se a exclusão de um produto.
+<img src="src/assets/deletandoumproduto.png">
+Processo de atualização de um produto, em que os valores anteriores são exibidos nos inputes ao entrar na página.
+<img src="src/assets/editandoumproduto.png">
+Modal que é aberto quando se solicita sair da conta.
+<img src="src/assets/saindodaconta.png">
+
+# Processo para executar o programa em sua maquina
+
+### Instale as dependências
+
+```sh
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Inicie a aplicação
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+npm run dev
+```
