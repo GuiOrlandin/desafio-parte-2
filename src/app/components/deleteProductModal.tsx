@@ -22,7 +22,7 @@ export default function DeleteProductModal({
   const [productId, setProductId] = useState("");
   const removeProduct = productStore((state) => state.removeProduct);
 
-  const { isSuccess, refetch, status, data } = useQuery({
+  const { refetch, status } = useQuery({
     queryKey: ["delete-Product"],
     enabled: false,
 

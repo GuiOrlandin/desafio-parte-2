@@ -4,7 +4,6 @@ import { ProductResponse } from "../page";
 
 import { CiEdit } from "react-icons/ci";
 import DeleteProductModal from "./deleteProductModal";
-import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: ProductResponse;
@@ -12,13 +11,9 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, userId }: ProductCardProps) {
-  const router = useRouter();
-
   function handleEditClick() {
-    router.push(`/itemUpdate/${product._id}`);
-    console.log(product._id);
+    window.location.href = `/itemUpdate/${product._id}`;
   }
-
   return (
     <div className="w-[306px] p-6 bg-[#F5F5F5] rounded-[20px] flex items-center pt-3 flex-col">
       {product ? (

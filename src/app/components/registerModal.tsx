@@ -56,7 +56,6 @@ export default function RegisterDialog() {
     }
 
     if (registerStatus === "error") {
-      console.log("test");
       setError("Email ja em uso!");
     }
   }, [userRegistered, registerStatus]);
