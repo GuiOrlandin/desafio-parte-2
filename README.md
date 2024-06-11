@@ -2,8 +2,7 @@
 
 ## 📃 About
 
-Desafio parte 2, é a segunda parte do desafio para a vaga fullstack web, foi desenvolvido a parte front-end com Next.js com a paginação de de listagem, adição e edição de produtos figma. Em que o usuário só pode criar/editar/
-deletar uma postagem se estiver logado e por ultimo só podera deletar se a postagem foi criada pelo mesmo.
+A "Parte 2" do desafio para a vaga de desenvolvedor fullstack web aborda o desenvolvimento da parte front-end com Next.js. Nesta fase, foram implementadas as funcionalidades de paginação, listagem, adição e edição de produtos. Para garantir a segurança e integridade das operações, as ações de deletar ou editar uma postagem só ocorrem se o usuário estiver logado e se o produto foi criado pelo mesmo.
 
 ## 🛠 Build with
 
